@@ -1,17 +1,21 @@
 import pygame
 from Player import Player
 
-player = Player(10, 5, 5, 6)
+player = Player(10, 5, 5, 6, 1)
 
 
 def main():
     pygame.init()
-    pygame.display.set_mode((1000, 500))
+    screen=pygame.display.set_mode((1280, 720))
     pygame.display.set_caption("Untitled")
+    background=pygame.image.load("bg.png").convert()
     running = True
     while running:
+        screen.blit(background,(0,0))
         running = CheckEvents()
-        player.update()
+        player.Update()
+        screen.blit(player.image,player.rect)
+        pygame.display.update()
 
 
 def CheckEvents():

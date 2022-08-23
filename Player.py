@@ -19,11 +19,13 @@ class Player:
         self.phyDef = phyDef
         self.magDef = magDef
         self.intelligence = intelligence
-        self.image = pygame.image.load('player.png').convert_alpha()
+        self.image = pygame.transform.scale(pygame.image.load('player.png'),(80,80))
         self.rect = self.image.get_rect()
         self.rect.midbottom = (100, 130)
         self.vel_y = 0
         self.jumped = False
+
+
 
     def Update(self):
         x_move = 0
@@ -31,20 +33,28 @@ class Player:
 
         key = pygame.key.get_pressed()
         if key[pygame.K_SPACE] and self.jumped is False:
-            self.vel_y = -18
+            self.vel_y = -10
             self.jumped = True
         if not key[pygame.K_SPACE]:
             self.jumped = False
         if key[pygame.K_a]:
-            x_move -= 5
+            x_move -= 1
+            if self.facing:
+                self.image=pygame.transform.flip(self.image,True,False)
+                self.facing=False
         if key[pygame.K_d]:
-            x_move += 5
-        self.vel_y += 1.2
-        if self.vel_y > 10:
-            self.vel_y = 10
+            x_move += 1
+            if not self.facing:
+                self.image = pygame.transform.flip(self.image, True, False)
+                self.facing = True
+        self.vel_y += 0.3
+        if self.vel_y > 1:
+            self.vel_y = 1
         y_move += self.vel_y
         self.rect.x += x_move
         self.rect.y += y_move
+        if(self.rect.bottom>300):
+            self.rect.bottom=300
 
     def Attack(self, monsters):
         # put animation here
